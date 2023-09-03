@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block body%}
+<!-- ***** Menu Area Starts ***** -->
+<section class="section" id="offers">
+<div class = "container">
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3">
+                <ul style="list-style: none; display: flex; justify-content: center; align-items: center;">
+                    <li class="justify-content-center" style="margin-right: 10px;">
+                        <a href="{% url 'menu' %}"><img src="{% static 'images/tab-icon-01.png' %}" alt="image">
+                            <p style="text-align: center">All</p>
+                        </a>
+                        <!--{% url 'menu' %}-->
+                    </li>
+                    {% for i in categories %}
+                    <li class="justify-content-center" style="margin-right: 10px;">
+                        <a href="{% url 'item_by_category' i.slug %}"><img src="{{i.category_image.url}}" alt="">
+                            <p style="text-align: center">{{i.category_name}}</p>
+                        </a>
+                        
+                    </li>
+                    <!--<li><a href='#tabs-2'><img src="{% static 'images/tab-icon-02.png' %}" alt="">Lunch</a></a></li>
+                    <li><a href='#tabs-3'><img src="{% static 'images/tab-icon-03.png' %}" alt="">Dinner</a></a></li>-->
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <br><br>
+    <div class = "row">
+            {% for a in food_item %}
+                <div class="col-sm-4" style="margin-bottom: 30px;">                    
+                    <div class='card'  style = "background-image: url('{{a.food_image.url}}');">
+                        <div class="price text-white" style = "
+                        width: 70px;
+                        height: 70px;
+                        background-color: #fb5849;
+                        border-radius: 3px;
+                        text-align: center;"><p class="text-white">BDT</p><h4>{{a.food_price}}</h4></div>
+                        <div class='info'>
+                          <h6 class='title'>{{a.food_name}}</h6>
+                          <p class='description'>{{a.food_description}}</p>                          
+                        </div>
+                    </div>
+                    <form action = "post">
+                        {% csrf_token %}
+                        <a href="{% url 'add_to_cart' food_id=a.pk %}">
+                            <div class=" btn main-text-button" style="background-color: #fb5849;width: 100%; display: block; text-align: center;">
+                                <div class="text-white" style="text-align: center;">Add to Cart</div>
+                            </div>
+                        </a>
+                    </form>
+                    
+                </div>
+            {% endfor %}
+            
+    </div>    
+</div>
+</section>
+<!-- ***** Menu Area Ends ***** --> 
+{% endblock%}
