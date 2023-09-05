@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block body%}
+
+<!-- ***** Menu Area Starts ***** -->
+<br><br><br><br>
+<section class="section" id="offers">
+    <div class="container">
+
+        <!-- ============================ COMPONENT 1 ================================= -->
+        <div class="card">
+            <h4 style="text-align:center; padding-top: 20px;">{{food_item.food_name}}</h4>
+            <hr>
+            <div class="row no-gutters">
+                <aside class="col-md-6">
+        <article class="gallery-wrap"> 
+            <div class="img-big-wrap" style="padding: 20px;">
+               <a href="#"><img src="{{food_item.food_image.url}}"></a>
+            </div> <!-- img-big-wrap.// -->
+            
+        </article> <!-- gallery-wrap .end// -->
+        </aside>
+        <main class="col-md-6 border-left">
+        <article class="content-body" style="padding-left: 20px;padding-right: 20px;">
+        
+        {% if food_item.discount_price %}
+        <div class="mb-3"> 
+            Discounted Price: <var class="price h4">Tk.{{food_item.discount_price}}</var> 
+
+            
+        </div>
+        <div class="mb-3"> 
+            Original Price: <strike><var class="price h4">Tk.{{food_item.food_price}}</var> </strike>
+        </div> 
+        {% else %}        
+        <div class="mb-3"> 
+            <var class="price h4">Tk.{{food_item.food_price}}</var> 
+        </div> 
+        {% endif %}
+        <p>{{food_item.food_description}}</p>
+        
+        
+        <hr>
+            
+
+        <form action = "post">
+            {% csrf_token %}
+            <a href="{% url 'add_to_cart' food_id=food_item.pk %}">
+                <div class=" btn main-text-button" style="background-color: #fb5849;width: 100%; display: block; text-align: center;">
+                    <div class="text-white" style="text-align: center;">Add to Cart</div>
+                </div>
+            </a>
+        </form>
+        </article> <!-- product-info-aside .// -->
+                </main> <!-- col.// -->
+            </div> <!-- row.// -->
+        </div> <!-- card.// -->
+        <!-- ============================ COMPONENT 1 END .// ================================= -->
+        
+        <div class="row">
+            <div class="col-md-9">
+                <br><br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3>Customer Reviews</h3>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="rating">
+                            <ul class="horizontal-rating" style="list-style: none; padding: 0;">
+                                <li data-value="1" style="display: inline; cursor: pointer; font-size: 24px; color: #ccc; margin-right: 5px;"><i class="fa fa-star"></i></li>
+                                <li data-value="2" style="display: inline; cursor: pointer; font-size: 24px; color: #ccc; margin-right: 5px;"><i class="fa fa-star"></i></li>
+                                <li data-value="3" style="display: inline; cursor: pointer; font-size: 24px; color: #ccc; margin-right: 5px;"><i class="fa fa-star"></i></li>
+                                <li data-value="4" style="display: inline; cursor: pointer; font-size: 24px; color: #ccc; margin-right: 5px;"><i class="fa fa-star"></i></li>
+                                <li data-value="5" style="display: inline; cursor: pointer; font-size: 24px; color: #ccc; margin-right: 5px;"><i class="fa fa-star"></i></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            
+            
+            
+        
+            <article class="box mb-3">
+                {% if reviews %}
+                {% for i in reviews %}
+                <div class="icontext w-100">
+                    <img src="{% static 'images/avatars/avatar1.jpg' %}" class="img-xs icon rounded-circle">
+                    <div class="text">
+                        <h6 class="mb-1">{{ i.user.first_name }} {{ i.user.last_name }}</h6>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="text-muted">{{ i.date_time }}</span>
+                            <span class="ml-2"> 
+                                <span class="text-warning">
+                                    {% for _ in "x"|ljust:i.rating %}
+                                        <span style="font-size: 24px;">&#9733;</span> <!-- Unicode star character '★' -->
+                                    {% endfor %}
+                                </span>  
+                                                             
+                            </span>
+                        </div>
+                    </div>
+                </div> <!-- icontext.// -->
+                <div class="mt-3">
+                    <h6>Comment:</h6>
+                    <p>{{ i.comment }}</p>
+                </div>
+                
+                
+                {% endfor %}
+                {% else %}
+                <h6>No Review</h6>
+                {% endif %}
+                
+                <div class="container mt-4">
+                    <h2>Add a Comment</h2>
+                    <hr>
+                    <br>
+                <form method="post" action="{% url 'detail' food_id=food_item.id %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="rating">Rating:</label>
+                        <select class="form-control" id="rating" name="rating">
+                            <option value="1">1 star</option>
+                            <option value="2">2 stars</option>
+                            <option value="3">3 stars</option>
+                            <option value="4">4 stars</option>
+                            <option value="5">5 stars</option>
+                        </select>
+                    </div>
+                    <br>
+                    <label for="comment">You Comment: </label>
+                    <textarea class="form-control" id="comment" name="comment" rows="4" placeholder="Write your comment here"></textarea>
+                    <br>
+                    <button class="btn text-white" type="submit" style="background-color: #fb5849;width: 100%; display: block; text-align: center;">Submit Review</button>
+                    
+                </form>
+            </div>    
+        </div>
+    </article>
+        
+            
+        
+            </div> <!-- col.// -->
+        </div> <!-- row.// -->
+        
+        
+    </div> <!-- container .//  -->
+</section>
+<!-- ***** Menu Area Ends ***** --> 
+{% endblock%}

@@ -6,21 +6,25 @@
 <br><br><br><br><br><br>
 
 <section class="section" id="cart">
+  <form action="" method="POST" >
+    {% csrf_token %}
     <div class="container">
         <!-- ============================ COMPONENT 1 ================================= -->
 
         <div class="row">
+          
           <aside class="col-lg-9" style="padding-bottom: 20px;">
             <div class="card" style="display: flex; justify-content: center; align-items: center;">
               <div class="card-body" >
               <h4 class="card-title mb-4" style="text-align: center;">Review Cart</h4>
+              
             </hr>
               {% if cart_items %}
               <table class="table table-borderless table-shopping-cart">
                 <thead class="text-muted">
                   <tr class="small text-uppercase">
                     <th scope="col" colspan="2" width="60%">Product</th>
-                    <th scope="col" width="20%">Quantity</th>
+                    <th scope="col" width="20%" style="text-align: left;">Quantity</th>
                     <th scope="col" width="20%">Price</th>
                   </tr>
                 </thead>
@@ -110,9 +114,12 @@
                 <p class="text-center mb-3">
                   <img src="{% static 'images/misc/payments.png' %}" height="26">
                 </p>
-                <a href="{% url 'checkout' %}" class="btn btn-primary btn-block">
-                  Place Order
-                </a>
+                <!--<a href="{% url 'place_order' %}" class="btn btn-primary btn-block">
+                  Make Payment
+                </a>-->
+                <button type=submit class="btn btn-primary btn-block">
+                  Make Payment
+                </button>
                 
               </div>
               <!-- card-body.// -->
@@ -126,8 +133,7 @@
               <div class="card-body" style="text-align: center;">
                 <h4 class="card-title mb-4">Billing Address</h4>
               </hr>
-                <form action="" method="POST" action="">
-                  {% csrf_token %}
+                
                   <div class="form-row">
                     <div class="col form-group">
                       <label for="">First Name</label>
@@ -181,13 +187,15 @@
               
                   </div>
                   <!--<button type="submit" class="btn btn-primary">Submit</button>-->
-                </form>  
+                 
             </div>
           </aside>
+        
         </div>
         <!-- row.// -->
         <!-- ============================ COMPONENT 1 END .// ================================= -->
-      </div>
+    </div>
+  </form> 
 </section>
 <!-- ***** Menu Area Ends ***** --> 
 {% endblock%}

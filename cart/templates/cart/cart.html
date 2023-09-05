@@ -41,7 +41,7 @@
                       <div class="" >
                         <div class="input-group input-spinner" >
                           <div class="input-group-prepend">
-                            <form method="post" action="{% url 'add_to_cart' i.food_item.pk %}">
+                            <form method="post" action="{% url 'increase_cart' i.food_item.pk %}">
                               {% csrf_token %}
                               <button class="btn btn-light" type="submit" id="button-plus">
                                 <i class="fa fa-plus"></i>
@@ -126,9 +126,16 @@
                 <p class="text-center mb-3">
                   <img src="{% static 'images/misc/payments.png' %}" height="26">
                 </p>
-                <a href="{% url 'checkout' %}" class="btn btn-primary btn-block">
-                  Checkout
-                </a>
+                
+                <a href="
+                {% if request.user.is_authenticated %}
+                {% url 'place_order' %}
+                {% else %}
+                {% url 'signin' %}?next={% url 'place_order' %}
+                {% endif %}
+                " class="btn btn-primary btn-block">
+                  Place Order
+                </a>              
                 <a href="{% url 'menu' %}" class="btn btn-light btn-block"
                   >Continue Shopping</a
                 >

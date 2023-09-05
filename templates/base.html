@@ -32,53 +32,7 @@
     </head>
     
     <body>
-    
-    <!-- ***** Preloader Start ***** -->
-    <!--<div id="preloader">
-        <div class="jumper">
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-    </div>  -->
-    <!-- ***** Preloader End ***** -->
-    
-    
-    <!-- ***** Header Area Start ***** -->
-    <!--<header class="header-area header-sticky">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <nav class="main-nav">
-                        <a href="index.html" class="logo">                            
-                            <img src="{% static 'images/klassy-logo.png' %}" align="klassy cafe html template">
-                            
-                        </a>
-                        <ul class="nav">
-                            <li class="scroll-to-section"><a href="{% url 'home' %}" class="{% if request.path == '' or request.path == '/' %}active{% endif %}">Home</a></li>
-                            <li class="scroll-to-section"><a href="{% url 'menu' %}" class="{% if request.path == '/menu/' %}active{% endif %}">Menu</a></li>
-                            
-                            <li class="scroll-to-section"><a href="{% url 'contact' %}" class="{% if request.path == '/contact/' %}active{% endif %}">Reservation</a></li> 
-                            &nbsp;&nbsp;
-                            
-                            <li class="scroll-to-section"><a href="{% url 'signin' %}" class="{% if request.path == '/accounts/signin/' %}active{% endif %}">Signin </a></li>
-                            <li class="scroll-to-section"><a href="{% url 'signup' %}" class="{% if request.path == '/accounts/signup/' %}active{% endif %}"> Signup</a></li>
-                            <li class="scroll-to-section"><a href="#" class="{% if request.path == '/cart/' %}active{% endif %}">
-                                <a href="#" class="widget-header pl-3 ml-3">
-                                    <i class="fa fa-shopping-cart fa-lg" style="font-size: 34px; position: relative;">
-                                        <span class="badge badge-danger notify" style="font-size: 12px; position: absolute; top: -10px; left: 20px;">0</span>
-                                    </i>
-                                </a>                               
-                            </li>
-                        </ul>        
-                        <a class='menu-trigger'>
-                            <span>Menu</span>
-                        </a>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </header>-->
+
     <header class="header-area header-sticky">
         <div class="container">
             <div class="row align-items-center">
@@ -92,28 +46,50 @@
                 <div class="col-6 col-md-10">
                     <!-- ***** Menu Start ***** -->
                     <nav class="main-nav">
+                        
                         <ul class="nav">
+                            <li class="scroll-to-section">
+                                <form class="form-inline my-2 my-lg-0" method="get" action="{% url 'food_search' %}">
+                                    {% csrf_token %}
+                                    <input class="form-control mr-sm-2" type="search" name="q" placeholder="Search" aria-label="Search">
+                                    <button class="btn text-white my-2 my-sm-0" type="submit" style="background-color: #fb5849;">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </form>
+                            </li>
                             <li class="scroll-to-section"><a href="{% url 'home' %}" class="{% if request.path == '' or request.path == '/' %}active{% endif %}">Home</a></li>
                             <li class="scroll-to-section"><a href="{% url 'menu' %}" class="{% if request.path == '/menu/' %}active{% endif %}">Menu</a></li>
                             <!-- Add other menu items here -->
-    
+                        
                             <li class="scroll-to-section"><a href="{% url 'contact' %}" class="{% if request.path == '/contact/' %}active{% endif %}">Reservation</a></li>
-                            <li class="scroll-to-section" style="padding-left:0px;">
-                                <a href="{% url 'cart' %}" class="widget-header pl-3 ml-3 {% if request.path == '/cart/' %}active{% endif %}">
+                            <li class="scroll-to-section">
+                                <a href="{% url 'cart' %}" class="widget-header {% if request.path == '/cart/' %}active{% endif %}">
                                     <i class="fa fa-shopping-cart fa-lg" style="font-size: 34px; position: relative;">
                                         <span class="badge badge-danger notify" style="font-size: 12px; position: absolute; top: -10px; left: 20px;">0</span>
                                     </i>
                                 </a>
                             </li>
                             {% if request.user.is_authenticated %}
-                            <li class="scroll-to-section"><a href="#" class="">Welcome, {{request.user.first_name}}!</a></li>
-                            <li class="scroll-to-section"><a href="{% url 'signout' %}" >Signout</a></li>
+                            <!--<li class="ml-auto"><a href="#" class="">Welcome, {{request.user.first_name}}!</a></li>-->
+                            <li class="ml-auto">
+                                <span style="font-size: 12px;">Welcome, {{request.user.first_name}}!</span>
+                                <div class="row justify-content-center align-items-center" style="font-size: 12px;">
+                                    <div style="text-align: left;margin-left:0px;">
+                                        <a href="{% url 'profile' %}" style="font-size: 12px;">Profile&nbsp;</a>
+                                    </div>
+                                    <div style="text-align: right;margin-right:0px;">
+                                        <a href="{% url 'signout' %}" style="font-size: 12px;">| Signout</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <!-- Add a "Profile" link here if needed -->
                             {% else %}
-                            <li class="scroll-to-section"><a href="{% url 'signin' %}" class="{% if request.path == '/accounts/signin/' %}active{% endif %}">Signin</a></li>
+                            <li class="ml-auto"><a href="{% url 'signin' %}" class="{% if request.path == '/accounts/signin/' %}active{% endif %}">Signin</a></li>
                             <!--<li class="scroll-to-section"><a href="{% url 'signup' %}" class="{% if request.path == '/accounts/signup/' %}active{% endif %}">Signup</a></li>
                             -->
                             {% endif %}
                         </ul>
+                        
                         <a class='menu-trigger'>
                             <span>Menu</span>
                         </a>
@@ -160,6 +136,11 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-lg-12 justify-content-center align-items-center">
+                    <a target="_blank" href="https://www.sslcommerz.com/" title="SSLCommerz" alt="SSLCommerz"><img style="width:300px;height:auto;" src="https://securepay.sslcommerz.com/public/image/SSLCommerz-Pay-With-logo-All-Size-01.png" /></a>
+                </div>
+            </div>
         </div>
     </footer>
 
@@ -184,6 +165,8 @@
     
     <!-- Global Init -->
     <script src="{% static 'js/custom.js' %}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&callback=initMap" async defer></script>
+
     <script>
 
         $(function() {
@@ -200,6 +183,18 @@
             });
         });
 
+    </script>
+    <script>
+        function initMap() {
+            var mapOptions = {
+                center: { lat: YOUR_LATITUDE, lng: YOUR_LONGITUDE },
+                zoom: 14, // Adjust the zoom level as needed
+            };
+    
+            var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+    
+            // You can add markers, polygons, and other features to the map here
+        }
     </script>
   </body>
 </html>

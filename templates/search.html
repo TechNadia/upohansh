@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body%}
+<!-- ***** About Area Starts ***** -->
+<br><br><br><br>
+<section class="section" id="search">
+    <div class = "container">
+        <br><br>
+    <div class = "row">
+            {% if results %}
+            {% for a in results %}
+                <div class="col-sm-4" style="margin-bottom: 30px;"> 
+                    <a href="{% url 'detail' food_id=a.pk %}">                   
+                    <div class='card'  style = "background-image: url('{{a.food_image.url}}');">
+                        <div class="price text-white" style = "
+                        width: 70px;
+                        height: 70px;
+                        background-color: #fb5849;
+                        border-radius: 3px;
+                        text-align: center;"><p class="text-white">BDT</p><h4>{{a.food_price}}</h4></div>
+                        <div class='info'>
+                          <h6 class='title'>{{a.food_name}}</h6>
+                          <p class='description'>{{a.food_description}}</p>                          
+                        </div>
+                    </div>
+                    </a>
+                    <form action = "post">
+                        {% csrf_token %}
+                        <a href="{% url 'add_to_cart' food_id=a.pk %}">
+                            <div class=" btn main-text-button" style="background-color: #fb5849;width: 100%; display: block; text-align: center;">
+                                <div class="text-white" style="text-align: center;">Add to Cart</div>
+                            </div>
+                        </a>
+                    </form>
+                    
+                </div>
+            {% endfor %}
+            {% else %}
+            <h4 style="text-align: center;">Sorry, no matching item found.<h4>
+            {% endif %}
+            
+    </div>    
+</div>
+</section>
+<!-- ***** About Area Ends ***** -->
+{% endblock%}

@@ -31,4 +31,5 @@ urlpatterns = [
     path('cart/<int:food_id>/', add_to_cart, name='add_to_cart'),
     path('contact/', views.contact, name = 'contact'),
     path('accounts/', include('accounts.urls')),
+    path('search/', views.food_search, name='food_search'),
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

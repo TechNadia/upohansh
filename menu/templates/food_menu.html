@@ -25,13 +25,20 @@
                     <!--<li><a href='#tabs-2'><img src="{% static 'images/tab-icon-02.png' %}" alt="">Lunch</a></a></li>
                     <li><a href='#tabs-3'><img src="{% static 'images/tab-icon-03.png' %}" alt="">Dinner</a></a></li>-->
                     {% endfor %}
+                    <li class="justify-content-center" style="margin-right: 10px;">
+                        <a href="{% url 'specials' %}"><img src="{% static 'images/tab-icon-03.png' %}" alt="image">
+                            <p style="text-align: center">Specials</p>
+                        </a>
+                        <!--{% url 'menu' %}-->
+                    </li>
                 </ul>
             </div>
         </div>
         <br><br>
     <div class = "row">
             {% for a in food_item %}
-                <div class="col-sm-4" style="margin-bottom: 30px;">                    
+                <div class="col-sm-4" style="margin-bottom: 30px;"> 
+                    <a href="{% url 'detail' food_id=a.pk %}">                   
                     <div class='card'  style = "background-image: url('{{a.food_image.url}}');">
                         <div class="price text-white" style = "
                         width: 70px;
@@ -44,6 +51,7 @@
                           <p class='description'>{{a.food_description}}</p>                          
                         </div>
                     </div>
+                    </a>
                     <form action = "post">
                         {% csrf_token %}
                         <a href="{% url 'add_to_cart' food_id=a.pk %}">

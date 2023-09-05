@@ -3,13 +3,13 @@
 
 {% block body %}
 <section class="section-conten padding-y bg">
-
+<br><br><br><br><br><br>
 <div class="container">
 	<div class="row">
 	<aside class="col-md-3">
 		<!--   SIDEBAR   -->
 		<ul class="list-group">
-			<a class="list-group-item active" href="#"> My order history </a>
+			<a class="list-group-item active" href="{% url 'order_history' %}"> My order history </a>
 			<a class="list-group-item" href="#"> Transactions </a>
 			<a class="list-group-item" href="#"> Return and refunds </a>
 			<a class="list-group-item" href="#">Settings </a>
@@ -17,24 +17,28 @@
 			<a class="list-group-item" href="#"> Received orders </a>
 		</ul>
 		<br>
-		<a class="btn btn-light btn-block" href="#"> <i class="fa fa-power-off"></i> <span class="text">Log out</span> </a> 
+		<a class="btn btn-light btn-block" href="{% url 'signout' %}"> <i class="fa fa-power-off"></i> <span class="text">Sign out</span> </a> 
 		<!--   SIDEBAR .//END   -->
 	</aside>
 	<main class="col-md-9">
+		{% if orders %}
+		{% for i in orders %}
 		<article class="card">
-		<header class="card-header">
-			<strong class="d-inline-block mr-3">Order ID: 6123456789</strong>
-			<span>Order Date: 16 December 2018</span>
-		</header>
+		<div style="margin-left: 15px;margin-top: 15px;">
+			<strong class="d-inline-block mr-3">Order ID: {{i.id}}</strong>
+			<span style="text-align: right;">Order Date: {{i.created_at}}</span>
+			<hr>
+		</div>
 		<div class="card-body">
 			<div class="row"> 
 				<div class="col-md-8">
 					<h6 class="text-muted">Delivery to</h6>
-					<p>Michael Jackson <br>  
-					Phone +1234567890 Email: myname@pixsellz.com <br>
-			    	Location: Home number, Building name, Street 123,  Tashkent, UZB <br> 
-			    	P.O. Box: 100123
-			 		</p>
+					<hr>
+					<p>{{i.user.first_name}} {{i.user.last_name}}<br>  
+					Phone {{i.phone}} Email: {{i.email}} <br>
+			    	Location: {{i.address_line_1}}, {{i.address_line_2}}, {{i.city}},  {{i.state}}<br>
+					{{i.country}} 
+				</p>
 				</div>
 				<div class="col-md-4">
 					<h6 class="text-muted">Payment</h6>
@@ -42,51 +46,47 @@
 						<i class="fab fa-lg fa-cc-visa"></i>
 					    Visa  **** 4216  
 					</span>
-					<p>Subtotal: $356 <br>
-					 Shipping fee:  $56 <br> 
-					 <span class="b">Total:  $456 </span>
+					<p>Subtotal: Tk. {{i.order_total}}  <br>
+					 Shipping fee:  Tk. 56 <br> 
+					 <span class="b">Total:  Tk. {{i.order_total}} + 56 </span>
 					</p>
 				</div>
 			</div> <!-- row.// -->
+			<br>
+			<div class="row">
+				<a href="{% url 'trace_order' %}" class="btn btn-outline-primary" style="margin-left:15px;">Track order</a> 
+				&nbsp; &nbsp; &nbsp; &nbsp;
+				<a href="{% url 'order_details' order_id=i.pk %}" class="btn btn-light"> Details </a>
+			</div>
 		</div> <!-- card-body .// -->
-		<div class="table-responsive">
-		<table class="table table-hover">
-			<tr>
-				<td width="65">
-					<img src="../images/items/1.jpg" class="img-xs border">
-				</td>
-				<td> 
-					<p class="title mb-0">Product name goes here </p>
-					<var class="price text-muted">USD 145</var>
-				</td>
-				<td> Seller <br> Nike clothing </td>
-				<td width="250"> <a href="#" class="btn btn-outline-primary">Track order</a> <a href="#" class="btn btn-light"> Details </a> </td>
-			</tr>
-			<tr>
-				<td>
-					<img src="../images/items/2.jpg" class="img-xs border">
-				</td>
-				<td> 
-					<p class="title mb-0">Another name goes here </p>
-					<var class="price text-muted">USD 15</var>
-				</td>
-				<td> Seller <br> ABC shop </td>
-				<td> <a href="#" class="btn btn-outline-primary">Track order</a> <a href="#" class="btn btn-light"> Details </a> </td>
-			</tr>
-			<tr>
-				<td>
-					<img src="../images/items/3.jpg" class="img-xs border">
-				</td>
-				<td> 
-					<p class="title mb-0">The name of the product  goes here </p>
-					<var class="price text-muted">USD 145</var>
-				</td>
-				<td> Seller <br> Wallmart </td>
-				<td> <a href="#" class="btn btn-outline-primary">Track order</a> <a href="#" class="btn btn-light"> Details </a> </td>
-			</tr>
-		</table>
-		</div> <!-- table-responsive .end// -->
+		<!--<div class="table-responsive">
+			<table class="table table-hover">
+				
+				{% for x in items %}				
+				<tr>
+					<td>
+						<img src="{{x.food.food_image.url}}" class="img-xs border">
+					</td>
+					<td> 
+						<p class="title mb-0 text-dark" style="padding-left: 0px;">{{x.food.food_name}}</p>
+						<var class="price text-muted">Tk. {{x.food_price}}</var>
+					</td>
+					<td> ID: <br> {{x.order.order_number}} </td>
+					<td> Date: <br> {{x.created_at}} </td>
+					<td> <a href="#" class="btn btn-outline-primary">Track order</a> <a href="#" class="btn btn-light"> Details </a> </td>
+				</tr>
+				{% endfor %}
+				
+				
+				
+			</table>
+		</div>--> <!-- table-responsive .end// -->
 		</article> <!-- order-group.// --> 
+		<br><br>
+		{% endfor %}
+		{% else %}
+			<h6>No Orders Made Yet!</h6>
+		{% endif %}
 	</main>
 </div> <!-- row.// -->
 </div>
