@@ -5,8 +5,11 @@ from .forms import ReviewForm
 # Create your views here.
 
 def specials(request):
+    categories = Category.objects.all()
+    #print(foods)
     discounted_food_item = FoodItem.objects.filter(discount_price__isnull=False)
-    return render(request, 'food_menu.html', {'food_item': discounted_food_item})
+    context = {'food_item': discounted_food_item, 'categories': categories}
+    return render(request, 'food_menu.html', context)
 
 def estimate_delivery(request, location_id):
     location = Location.objects.get(pk=location_id)

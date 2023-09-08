@@ -107,11 +107,35 @@
                 {% for item in discounts %}
                 <div class="item">
                     <div class='card' style="background-image: url('{{item.food_image.url}}');">
-                        <div class="price"><h6>Tk.{{item.discount_price}}</h6></div>
+                        <!--<div class="price">
+                            {% if item.discount_price %}
+                            <h6 class="text-white">{{item.discount_price}}</h6>
+                            <h6 class="text-white"><strike>{{item.food_price}}</strike></h6>
+                            {% else %}        
+                            <h6>{{item.food_price}}</h6>
+                            {% endif %} 
+                            </div>-->
+                        <div class="price text-white" style = "
+                            width: 70px;
+                            height: auto;
+                            background-color: #fb5849;
+                            border-radius: 3px;
+                            text-align: center;">
+                            <p class="text-white"><strong>Tk.</strong>
+                            {% if item.discount_price %}
+                            <h4><strong>{{item.discount_price}}</strong></h4>
+                            <h5><strike class="text-white">{{item.food_price}}</strike></h5>
+                            {% else %}        
+                            <h6>{{item.food_price}}</h6>
+                            {% endif %} 
+                            </p>                           
+                        </div>
                         <div class='info'>
                             <h6 class='title'>{{item.food_name}}</h6>
-                            <p class='description'>{{item.food_description|slice:"0:25"}}</p>
+                            <!--<p class='description'>{{item.food_description|slice:"0:25"}}</p>
                             <br>
+                            -->
+                            
                             <form action="post" style="background-color: #ffffff; width: 100%; display: flex; flex-direction: column;  ">
                                 {% csrf_token %}
                                 <a href="{% url 'add_to_cart' food_id=item.pk %}">

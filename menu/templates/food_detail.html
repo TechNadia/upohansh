@@ -5,7 +5,7 @@
 {% block body%}
 
 <!-- ***** Menu Area Starts ***** -->
-<br><br><br><br>
+<br>
 <section class="section" id="offers">
     <div class="container">
 
@@ -27,9 +27,7 @@
         
         {% if food_item.discount_price %}
         <div class="mb-3"> 
-            Discounted Price: <var class="price h4">Tk.{{food_item.discount_price}}</var> 
-
-            
+            Discounted Price: <var class="price h4">Tk.{{food_item.discount_price}}</var>             
         </div>
         <div class="mb-3"> 
             Original Price: <strike><var class="price h4">Tk.{{food_item.food_price}}</var> </strike>
@@ -110,7 +108,7 @@
                 
                 {% endfor %}
                 {% else %}
-                <h6>No Review</h6>
+                <p>No review has been given yet! Be the first one!</p>
                 {% endif %}
                 
                 <div class="container mt-4">

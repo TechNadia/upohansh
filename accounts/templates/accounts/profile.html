@@ -9,6 +9,7 @@
 	<aside class="col-md-3">
 		<!--   SIDEBAR   -->
 		<ul class="list-group">
+			<a class="list-group-item active" href="{% url 'profile' %}"> My Profile </a>
 			<a class="list-group-item active" href="{% url 'order_history' %}"> My order history </a>
 			<a class="btn btn-light btn-block" href="{% url 'signout' %}"> <i class="fa fa-power-off"></i> <span class="text">Sign out</span> </a>
 			
@@ -19,39 +20,30 @@
 		{% if orders %}
 		{% for i in orders %}
 		<article class="card">
-		<div style="margin-left: 15px;margin-top: 15px;">
-			<strong class="d-inline-block mr-3">Order ID: {{i.id}}</strong>
-			<span style="text-align: right;">Order Date: {{i.created_at}}</span>
+		<div style="margin-left: 15px;margin-top: 15px; text-align: center;">
+			<strong class="d-inline-block mr-3">My Profile</strong>
+			<span style="text-align: right;"></span>
 			<hr>
 		</div>
 		<div class="card-body">
 			<div class="row"> 
 				<div class="col-md-8">
-					<h6 class="text-muted">Delivery to: {{i.user.first_name}} {{i.user.last_name}}</h6>
+					<h6 class="text-muted">Name: {{request.user.first_name}} {{request.user.last_name}}</h6>
 					<hr>
-					<p>Contact: {{i.phone}}<br>  
-					Email: {{i.email}} <br>
-			    	Location: {{i.address_line_1}}, {{i.address_line_2}}, {{i.city}},  {{i.state}}<br>
-					{{i.country}}.
+					<p>Username: {{request.user.username}}<br>
+                    Contact: {{request.user.phone_number}}<br>  
+					Email: {{request.user.email}} <br>
+                    Joined at: {{request.user.date_joined}}<br>
+                    Last Login: {{request.user.last_login}}
 				</p>
 				</div>
-				<div class="col-md-4">
-					<h6 class="text-muted">Payment</h6>
-					<span class="text-success">
-						<i class="fab fa-lg fa-cc-visa"></i>
-					    {{i.payment}}  
-					</span>
-					<p>Subtotal: Tk. {{i.order_total}}  <br>
-					 Shipping fee:  Tk. 56 <br> 
-					 <span class="b">Total:  Tk. {{i.order_total}} + 56 </span>
-					</p>
-				</div>
-			</div> <!-- row.// -->
+				
+			</div> <!-- row.// {% url 'order_details -->
 			<br>
 			<div class="row">
-				<a href="{% url 'trace_order' %}" class="btn btn-outline-primary" style="margin-left:15px;">Track order</a> 
+				<a href="{% url 'change_password' %}" class="btn btn-outline-primary" style="margin-left:15px;">Change Password</a> 
 				&nbsp; &nbsp; &nbsp; &nbsp;
-				<a href="{% url 'order_details' order_id=i.pk %}" class="btn btn-light"> Details </a>
+				<a href="#" class="btn btn-light"> Details </a>
 			</div>
 		</div> <!-- card-body .// -->
 		

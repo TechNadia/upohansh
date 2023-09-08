@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from menu.models import FoodItem
 from django.db.models import Q
+from cart.models import Cart, CartItem
 
 # Create your views here.
 def home(request):
+    
     food_items = FoodItem.objects.all()
     discounted_food_item = FoodItem.objects.filter(discount_price__isnull=False)
     return render(request, 'index.html', {"food":food_items, 'discounts': discounted_food_item})

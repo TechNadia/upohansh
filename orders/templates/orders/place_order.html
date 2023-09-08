@@ -54,11 +54,20 @@
                     </td>
                     <td>
                       <div class="price-wrap">
-                        <var class="price">Tk.{{i.sub_total}}</var>
-                        <p>Tk.<small class="text-muted"> {{i.food_item.food_price}} each </small></p>
+                          <var class="price">{{ i.sub_total }}</var>
+                          <p>Tk. <small class="text-muted">
+                              {% if i.food_item.discount_price %}
+                                {{ i.food_item.discount_price }}
+                                  <strike class="text-dark">{{ i.food_item.food_price }}</strike>
+                              {% else %}        
+                                  {{ i.food_item.food_price }}
+                              {% endif %}
+                              per pc 
+                          </small></p>
                       </div>
                       <!-- price-wrap .// -->
                     </td>
+                  
                     
                   </tr>
                   

@@ -8,34 +8,14 @@
 <div class = "container">
         <div class="row">
             <div class="col-lg-6 offset-lg-3">
-                <div class="card-header">
-                    <h5 class="card-title" style="text-align:center;">Categories</h5>
-                    <ul style="list-style: none; display: flex; justify-content: center; align-items: center;">
-                        <li class="justify-content-center" style="margin-right: 10px;">
-                            <a href="{% url 'menu' %}"><img src="{% static 'images/tab-icon-01.png' %}" alt="image">
-                                <p style="text-align: center">All</p>
-                            </a>
-                            <!--{% url 'menu' %}-->
-                        </li>
-                        {% for i in categories %}
-                        <li class="justify-content-center" style="margin-right: 10px;">
-                            <a href="{% url 'item_by_category' i.slug %}"><img src="{{i.category_image.url}}" alt="">
-                                <p style="text-align: center">{{i.category_name}}</p>
-                            </a>
-                            
-                        </li>
-                        <!--<li><a href='#tabs-2'><img src="{% static 'images/tab-icon-02.png' %}" alt="">Lunch</a></a></li>
-                        <li><a href='#tabs-3'><img src="{% static 'images/tab-icon-03.png' %}" alt="">Dinner</a></a></li>-->
-                        {% endfor %}
-                        <li class="justify-content-center" style="margin-right: 10px;">
-                            <a href="{% url 'specials' %}"><img src="{% static 'images/tab-icon-03.png' %}" alt="image">
-                                <p style="text-align: center">Specials</p>
-                            </a>
-                            <!--{% url 'menu' %}-->
-                        </li>
-                    </ul>
-                </div>
-                
+                <ul style="list-style: none; display: flex; justify-content: center; align-items: center;">                    
+                    <li class="justify-content-center" style="margin-right: 10px;">
+                        <a href="{% url 'specials' %}"><img src="{% static 'images/tab-icon-03.png' %}" alt="image">
+                            <p style="text-align: center">Specials</p>
+                        </a>
+                        <!--{% url 'menu' %}-->
+                    </li>
+                </ul>
             </div>
         </div>
         <br><br>
@@ -57,10 +37,6 @@
                             {% else %}        
                             <h4>{{a.food_price}}</h4>
                             {% endif %}                            
-                        </div>
-                        <div class='info'>
-                          <h6 class='title'>{{a.food_name}}</h6>
-                          <p class='description'>{{a.food_description}}</p>                          
                         </div>
                     </div>
                     </a>

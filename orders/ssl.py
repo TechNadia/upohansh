@@ -10,10 +10,10 @@ def unique_transaction_id_generator(size=10, chars=string.ascii_uppercase + stri
 @login_required 
 def sslcommerz_payment_gateway(request, id, user_id, grand_total):
     gateway_auth_details = PaymentGatewaySettings.objects.all().first()
-    
+    #print("gateway_auth_details: ", gateway_auth_details)
     settings = {'store_id': gateway_auth_details.store_id,
                 'store_pass': gateway_auth_details.store_pass, 'issandbox': True}
-    print("heyyyyyyyy ", settings)
+    #print("settings: ", settings)
     sslcommez = SSLCOMMERZ(settings)
     post_body = {}
     post_body['total_amount'] = grand_total
@@ -41,6 +41,6 @@ def sslcommerz_payment_gateway(request, id, user_id, grand_total):
     post_body['value_c'] = 'email'
 
     response = sslcommez.createSession(post_body)
-    print(response)
+    print("Response: ",response)
     # return JsonResponse(response)
     return 'https://sandbox.sslcommerz.com/gwprocess/v4/gw.php?Q=pay&SESSIONKEY=' + response["sessionkey"]

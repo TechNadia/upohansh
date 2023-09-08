@@ -11,8 +11,17 @@
 
         <div class="row">
           <aside class="col-lg-9">
+            <div class="card-header">
+              <h5 class="card-title" style="text-align:center;">My Cart</h5>
+              <div style="display: flex; justify-content: flex-end; align-items: center;">
+                  <i class="fa fa-shopping-cart fa-lg" style="font-size: 34px; margin-right: 10px;"></i>
+                  <h6>Total: {{ request.session.food_quantity }} ITEMS</h6>
+              </div>
+            </div>
+            
             <div class="card" style="display: flex; justify-content: center; align-items: center;">
               {% if cart_items %}
+              
               <table class="table table-borderless table-shopping-cart">
                 <thead class="text-muted">
                   <tr class="small text-uppercase">
@@ -64,8 +73,16 @@
                     </td>
                     <td>
                       <div class="price-wrap">
-                        <var class="price">Tk.{{i.sub_total}}</var>
-                        <p>Tk.<small class="text-muted"> {{i.food_item.food_price}} each </small></p>
+                          <var class="price">{{ i.sub_total }}</var>
+                          <p>Tk. <small class="text-muted">
+                              {% if i.food_item.discount_price %}
+                                {{ i.food_item.discount_price }}
+                                  <strike class="text-dark">{{ i.food_item.food_price }}</strike>
+                              {% else %}        
+                                  {{ i.food_item.food_price }}
+                              {% endif %}
+                              per pc 
+                          </small></p>
                       </div>
                       <!-- price-wrap .// -->
                     </td>
@@ -108,20 +125,7 @@
                     <td class="text-right"><strong>Tk.{{grand_total}}</strong></td>
                   </tr>
                 </table>
-                <!--<dl class="dlist-align" style="display: inline;">
-                  <dt>Total price:</dt>
-                  <dd class="text-right">Tk.{{total}}</dd>
-                </dl>
-                <dl class="dlist-align">
-                  <dt>Tax:</dt>
-                  <dd class="text-right">Tk.{{tax}}</dd>
-                </dl>
-                <dl class="dlist-align">
-                  <dt>Total:</dt>
-                  <dd class="text-right text-dark b">
-                    <strong>Tk.{{grand_total}}</strong>
-                  </dd>
-                </dl>-->
+                
                 <hr />
                 <p class="text-center mb-3">
                   <img src="{% static 'images/misc/payments.png' %}" height="26">

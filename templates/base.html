@@ -58,20 +58,41 @@
                                 </form>
                             </li>
                             <li class="scroll-to-section"><a href="{% url 'home' %}" class="{% if request.path == '' or request.path == '/' %}active{% endif %}">Home</a></li>
-                            <li class="scroll-to-section"><a href="{% url 'menu' %}" class="{% if request.path == '/menu/' %}active{% endif %}">Menu</a></li>
-                            <!-- Add other menu items here -->
-                        
-                            <li class="scroll-to-section"><a href="{% url 'contact' %}" class="{% if request.path == '/contact/' %}active{% endif %}">Reservation</a></li>
+                            <li class="scroll-to-section"><a href="{% url 'menu' %}" class="{% if request.path == '/menu/' %}active{% endif %}">Foods Items</a></li>
+                            <li class="scroll-to-section"><a href="{% url 'specials' %}" class="{% if request.path == '/menu/specials/' %}active{% endif %}">Specials</a></li>
                             <li class="scroll-to-section">
                                 <a href="{% url 'cart' %}" class="widget-header {% if request.path == '/cart/' %}active{% endif %}">
                                     <i class="fa fa-shopping-cart fa-lg" style="font-size: 34px; position: relative;">
-                                        <span class="badge badge-danger notify" style="font-size: 12px; position: absolute; top: -10px; left: 20px;">0</span>
+                                        <span class="badge badge-danger notify" style="font-size: 12px; position: absolute; top: -10px; left: 20px;">{{ request.session.food_quantity }}</span>
                                     </i>
                                 </a>
                             </li>
-                            {% if request.user.is_authenticated %}
-                            <!--<li class="ml-auto"><a href="#" class="">Welcome, {{request.user.first_name}}!</a></li>-->
-                            <li class="ml-auto">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  More
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="padding-left: 20px;">
+                                    <a href="{% url 'order_history' %}" class="{% if request.path == '/accounts/order_history/' %}active{% endif %}">Order History</a>
+                                    <a href="{% url 'contact' %}" class="{% if request.path == '/contact/' %}active{% endif %}">Reservation</a>
+                                    <div class="dropdown-divider"></div>
+                                    {% if request.user.is_authenticated %}
+                                    <span style="font-size: 12px;">Welcome, {{request.user.first_name}}!</span>
+                                    <a href="#" >Profile</a>
+                                    <!--<a href="{% url 'profile' %}" >Profile</a>-->
+                                    <a href="{% url 'signout' %}" >Signout</a>
+                                    
+                                    {% else %}
+                                    <a href="{% url 'signin' %}" class="{% if request.path == '/accounts/signin/' %}active{% endif %}">Signin</a>                                    
+                                    {% endif %}
+                                </div>
+                            </li>
+                           
+                        
+                            <!--<li class="scroll-to-section"><a href="{% url 'contact' %}" class="{% if request.path == '/contact/' %}active{% endif %}">Reservation</a></li>-->
+                            
+                            <!--{% if request.user.is_authenticated %}
+                            <li class="ml-auto"><a href="#" class="">Welcome, {{request.user.first_name}}!</a></li>-->
+                            <!--<li class="ml-auto">
                                 <span style="font-size: 12px;">Welcome, {{request.user.first_name}}!</span>
                                 <div class="row justify-content-center align-items-center" style="font-size: 12px;">
                                     <div style="text-align: left;margin-left:0px;">
@@ -81,12 +102,9 @@
                                         <a href="{% url 'signout' %}" style="font-size: 12px;">| Signout</a>
                                     </div>
                                 </div>
-                            </li>
+                            </li>-->
                             <!-- Add a "Profile" link here if needed -->
-                            {% else %}
-                            <li class="ml-auto"><a href="{% url 'signin' %}" class="{% if request.path == '/accounts/signin/' %}active{% endif %}">Signin</a></li>
-                            <!--<li class="scroll-to-section"><a href="{% url 'signup' %}" class="{% if request.path == '/accounts/signup/' %}active{% endif %}">Signup</a></li>
-                            -->
+                            
                             {% endif %}
                         </ul>
                         

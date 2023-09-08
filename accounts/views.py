@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from .forms import RegistrationForm
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.views import PasswordChangeView
+from .forms import CustomPasswordChangeForm
 from cart.models import Cart, CartItem
 from orders.models import Order, OrderFoodItem
 
@@ -8,20 +10,33 @@ from orders.models import Order, OrderFoodItem
 def trace_order(request):    
     return render(request, 'accounts/trace_order.html')
 
+def change_password(request):
+    return (request, 'accounts/change_password.html')
+
+def password_change_done(request):
+    return render(request, 'accounts/password_change_done.html')
+
+class CustomPasswordChangeView(PasswordChangeView):
+    template_name = 'accounts/change_password.html'  # Create a template for the password change form
+    form_class = CustomPasswordChangeForm
+    success_url = 'password_change_done/'  # Redirect to a success page after password change
+    #return redirect('success_url')
+
+
 def profile(request):
     orders = Order.objects.filter(user=request.user).order_by('-created_at')
     order_item = OrderFoodItem.objects.filter(user=request.user).order_by('-created_at')
     #print(orders)
-    return render(request, 'accounts/dashboard.html', {'orders': orders, 'items':order_item})
+    return render(request, 'accounts/profile.html', {'orders': orders, 'items':order_item})
 
 def order_details(request, order_id):
-    print(Order.objects.get(id=order_id))
+    order = Order.objects.get(id=order_id)
     try:
-        order_item = OrderFoodItem.objects.get(user=request.user, order =  Order.objects.get(id=order_id))        
+        order_item = OrderFoodItem.objects.filter(user=request.user, order =  order)        
     except:
         order_item=None
     #print(order_item)
-    return render(request, 'accounts/order_history.html', {'items':order_item})
+    return render(request, 'accounts/order_details.html', {'order':order, 'items':order_item})
 
 def order_history(request):
     orders = Order.objects.filter(user=request.user).order_by('-created_at')

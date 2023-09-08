@@ -18,7 +18,12 @@ class CartItem(models.Model):
     is_active = models.BooleanField(default=True)
     
     def sub_total(self):
-        return self.food_item.food_price*self.quantity
+        if self.food_item.discount_price:
+            print("Discounted price: ", self.food_item.discount_price)
+            return self.food_item.discount_price*self.quantity
+        else:
+            print("Item has not no discount price")
+            return self.food_item.food_price*self.quantity
     
     def __str__(self) -> str:
         return f'{self.food_item} {self.quantity}' 

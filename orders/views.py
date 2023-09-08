@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from cart.models import Cart, CartItem
 from .forms import OrderForm
+from decimal import Decimal
 
 from django.shortcuts import render, redirect
 from cart.models import Cart, CartItem
@@ -18,6 +19,8 @@ def success_view(request):
     print('data -------', data)
     user_id = int(data['value_b'])  # Retrieve the stored user ID as an integer
     user = User.objects.get(pk=user_id)
+    print("user: ", user)
+    print("type(data['value_a']): ", type(data['value_a']))
     payment = Payment(
         user = user,
         payment_id =data['tran_id'],
@@ -68,32 +71,35 @@ def place_order(request):
         if cart_items.count()>0:
             for item in cart_items:
                 total += item.sub_total()
-            tax += total*.05
+            """tax += total*.05
+            grand_total = total+tax"""
+            tax += Decimal(.05)*total
             grand_total = total+tax
             print("cart_items: ", list(cart_items))
         else:
             return redirect('menu')
         
-        print("request method: ", request.method)
         if request.method=='POST':
             form = OrderForm(request.POST)
-            print(form)
+            print("request method: ", request.method)
             if form.is_valid():
+                print("request method: ", request.method)
                 form.instance.user = request.user
                 form.instance.order_total = grand_total
                 form.instance.tax = tax
                 form.instance.ip = request.META.get('REMOTE_ADDR')
-                """form.instance.payment_id = 'abc'
-                form.instance.payment_method = 'bkash'"""
                 #form.instance.payment = 2
                 saved_instance = form.save()
-                form.instance.order_number == saved_instance.id
-                print("saved_instance.id: ", saved_instance.id)
+                form.instance.order_number = saved_instance.id
+                print("type(saved_instance.id): ", type(saved_instance.id))
+                print("request.user.id: ", request.user.id)
                 form.save()
-                #print(form)
-                return redirect(sslcommerz_payment_gateway(request,  saved_instance.id, request.user.id, grand_total))
+                print(form)
+                return redirect(sslcommerz_payment_gateway(request,  saved_instance.id, request.user.id, round(grand_total, 2)))
+            else:
+                print(form.errors)
     
-    return render(request, 'orders/place_order.html', {'cart_items': cart_items, 'total':total, 'tax':round(tax, 2), 'grand_total':grand_total})
+    return render(request, 'orders/place_order.html', {'cart_items': cart_items, 'total':total, 'tax':round(tax, 2), 'grand_total':round(grand_total, 2)})
 
 def checkout(request):
     return (request, '')
